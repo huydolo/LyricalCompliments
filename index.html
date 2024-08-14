@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliment Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;600&display=swap" rel="stylesheet"> <!-- Import Albert Sans font -->
+    <style>
+        body {
+            font-family: 'Albert Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFB6C1, #C1E1FF); /* Initial gradient background */
+            margin: 0;
+            overflow: hidden; /* Hide overflow for confetti */
+            transition: background 0.3s ease; /* Smooth background gradient change */
+        }
+
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            width: 600px; /* Larger box */
+            max-width: 90%;
+            position: relative;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 40px; /* Larger font size */
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32); /* Gradient button */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            font-family: 'Albert Sans', sans-serif; /* Apply Albert Sans font */
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #388E3C, #1B5E20);
+        }
+
+        #complimentText {
+            margin-top: 30px;
+            font-size: 30px; /* Larger text for compliments */
+            font-weight: bold;
+            color: #555555;
+            text-align: center; /* Centered text */
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #FFC107, #FF5722);
+            opacity: 0.8;
+            will-change: transform, opacity;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100%) rotate(0); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .contact-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #FF5722, #FFEB3B);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            font-family: 'Albert Sans', sans-serif;
+        }
+
+        .contact-button:hover {
+            background: linear-gradient(135deg, #F57C00, #FBC02D);
+        }
+
+        .footer {
+            margin-top: 50px;
+            font-size: 14px; /* Smaller font size for footer */
+            font-weight: bold;
+            color: #555555;
+            text-align: center;
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <button class="contact-button" onclick="window.location.href='https://www.facebook.com/profile.php?id=100009890620171'">Contact</button>
+    <div class="container">
+        <h1>Compliment from Lyrics!</h1>
+        <button id="complimentButton">Click Me</button>
+        <p id="complimentText"></p>
+    </div>
+    
+    <div class="confetti" id="confetti"></div>
+
+    <div class="footer">Made by Vuong Tuan Huy</div>
+
+    <script>
+        const compliments = [
+            "\"I see you, and I’m down for you.\" – 'Sweet Life' by Frank Ocean",
+            "\"I'm just tryna keep my head up.\" – 'Good Days' by SZA",
+            "\"I don't wanna be alone tonight.\" – 'I Want You Around' by SZA",
+            "\"I’m on the top of the world.\" – 'Nikes' by Frank Ocean",
+            "\"I just wanna make it right.\" – 'Supermoon' by SZA",
+            "\"You got that look in your eyes.\" – 'Pyramids' by Frank Ocean",
+            
+        ];
+
+        const gradients = [
+            'linear-gradient(135deg, #FF5733, #FFC300)', 
+            'linear-gradient(135deg, #DAF7A6, #FFC0CB)', 
+            'linear-gradient(135deg, #C70039, #FF5733)', 
+            'linear-gradient(135deg, #900C3F, #581845)', 
+            'linear-gradient(135deg, #1E90FF, #87CEEB)'
+        ]; // Array of background gradients
+
+        document.getElementById('complimentButton').addEventListener('click', function() {
+            const randomIndex = Math.floor(Math.random() * compliments.length);
+            document.getElementById('complimentText').innerText = compliments[randomIndex];
+            throwConfetti();
+            changeBackground();
+        });
+
+        function throwConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            confettiContainer.innerHTML = ''; // Clear previous confetti
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement('div');
+                confettiPiece.classList.add('confetti-piece');
+                confettiPiece.style.left = Math.random() * 100 + 'vw';
+                confettiPiece.style.background = `linear-gradient(135deg, #${Math.floor(Math.random()*16777215).toString(16).toUpperCase()}, #${Math.floor(Math.random()*16777215).toString(16).toUpperCase()})`;
+                confettiPiece.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => confettiContainer.innerHTML = '', 5000); // Clear confetti after 5 seconds
+        }
+
+        function changeBackground() {
+            const randomGradientIndex = Math.floor(Math.random() * gradients.length);
+            document.body.style.background = gradients[randomGradientIndex];
+        }
+    </script>
+</body>
+</html>
